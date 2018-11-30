@@ -1,4 +1,4 @@
 server:
   port: 8011
 
-dingtalk_access_token: ac85ce7d06b856c9369113665e5022feef73f87917bc17ec1d22e95974acc95b
+dingtalk_access_token: 4b63318f278f88f00671b75990359d3b596a1166d564b71a2c78a985f4cc892c

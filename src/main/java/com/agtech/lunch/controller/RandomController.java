@@ -3,6 +3,7 @@ package com.agtech.lunch.controller;
 import com.agtech.lunch.manager.RandomRestaurantManager;
 import com.agtech.lunch.timetask.DingtalkHook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,5 +39,11 @@ public class RandomController {
     public String sendDingTalkMsg(@RequestParam String msg) throws IOException {
         dingtalkHook.send(msg);
         return msg;
+    }
+
+    @RequestMapping("/reply")
+    public String reply(@RequestBody String body) {
+        System.out.println(body);
+        return body;
     }
 }
