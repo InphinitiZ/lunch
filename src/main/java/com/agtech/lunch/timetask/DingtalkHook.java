@@ -29,8 +29,8 @@ public class DingtalkHook {
     @Autowired
     private RandomRestaurantManager randomRestaurantManager;
 
-//    @Scheduled(cron = "0 50 11 * * MON-FRI")
-    @Scheduled(cron = "*/5 * * * * MON-FRI")
+    @Scheduled(cron = "0 50 11 * * MON-FRI")
+//    @Scheduled(cron = "*/5 * * * * MON-FRI")
     private void send() throws IOException {
 
         HttpClient httpclient = HttpClients.createDefault();
