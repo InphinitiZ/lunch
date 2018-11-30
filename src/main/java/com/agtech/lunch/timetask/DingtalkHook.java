@@ -10,6 +10,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +25,10 @@ import java.io.IOException;
 @Component
 public class DingtalkHook {
 
-    private static final String WEBHOOK_TOKEN = "https://oapi.dingtalk.com/robot/send?access_token=ac85ce7d06b856c9369113665e5022feef73f87917bc17ec1d22e95974acc95b";
+    @Value("${dingtalk_access_token}")
+    private String ACCESSTOKEN;
+
+    private String WEBHOOK_URL_PREFIX = "https://oapi.dingtalk.com/robot/send?access_token=";
 
     @Autowired
     private RandomRestaurantManager randomRestaurantManager;
@@ -32,15 +36,21 @@ public class DingtalkHook {
     @Scheduled(cron = "0 50 11 * * MON-FRI")
 //    @Scheduled(cron = "*/5 * * * * MON-FRI")
     private void send() throws IOException {
+        post(randomRestaurantManager.getRestaurantResult());
+    }
 
+    public void send(String msg) throws IOException {
+        post(msg);
+    }
+
+    private void post(String msg) throws IOException {
         HttpClient httpclient = HttpClients.createDefault();
 
-        HttpPost httppost = new HttpPost(WEBHOOK_TOKEN);
+        HttpPost httppost = new HttpPost(WEBHOOK_URL_PREFIX + ACCESSTOKEN);
         httppost.addHeader("Content-Type", "application/json; charset=utf-8");
 
-        String textMsg =randomRestaurantManager.getRestaurantResult();
         DingMessage dingMessage = new DingMessage();
-        dingMessage.getText().setContent(textMsg);
+        dingMessage.getText().setContent(msg);
 
         StringEntity se = new StringEntity(JSON.toJSONString(dingMessage), "utf-8");
         httppost.setEntity(se);
@@ -48,5 +58,13 @@ public class DingtalkHook {
         HttpResponse response = httpclient.execute(httppost);
         if (response.getStatusLine().getStatusCode()== HttpStatus.SC_OK){
         }
+    }
+
+    public String getACCESSTOKEN() {
+        return ACCESSTOKEN;
+    }
+
+    public void setACCESSTOKEN(String ACCESSTOKEN) {
+        this.ACCESSTOKEN = ACCESSTOKEN;
     }
 }
