@@ -23,6 +23,11 @@ public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
+    
+    @PostConstruct
+    void setDefaultTimezone() {
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Shanghai"));
+    }
 
     @Bean
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
