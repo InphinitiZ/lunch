@@ -45,13 +45,13 @@ public class RandomController {
         return msg;
     }
 
-    @RequestMapping("/reply")
+    @RequestMapping("/repeat")
     public String reply(@RequestBody String body) {
         System.out.println(body);
         return body;
     }
 
-    @RequestMapping("/ai")
+    @RequestMapping("/reply")
     public String ai(@RequestBody String body) throws IOException {
         return aiManager.talk2Ai(body);
     }
