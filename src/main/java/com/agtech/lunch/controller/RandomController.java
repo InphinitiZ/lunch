@@ -53,6 +53,7 @@ public class RandomController {
 
     @RequestMapping("/reply")
     public String ai(@RequestBody String body) throws IOException {
-        return aiManager.talk2Ai(body);
+        System.out.println(body);
+        return aiManager.talk2Ai("#1: " + body);
     }
 }

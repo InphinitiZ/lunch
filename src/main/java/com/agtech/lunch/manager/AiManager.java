@@ -25,8 +25,13 @@ public class AiManager {
         JSONObject msgJsonObj = JSON.parseObject(msg);
         String sentence = msgJsonObj.getJSONObject("text").getString("content");
 
+        System.out.println("#2:" + sentence);
+
         JSONObject send2AiJsonObj = JSON.parseObject(testSentence);
         send2AiJsonObj.getJSONObject("perception").getJSONObject("inputText").put("text", sentence);
+
+        System.out.println("#3: " + send2AiJsonObj.toJSONString());
+
 
         HttpClient httpclient = HttpClients.createDefault();
 
@@ -39,10 +44,14 @@ public class AiManager {
         HttpResponse response = httpclient.execute(httppost);
         if (response.getStatusLine().getStatusCode()== HttpStatus.SC_OK){
             String result = EntityUtils.toString(response.getEntity(), "utf-8");
+
+            System.out.println("#4: " + result);
+
             JSONObject resultJsonObj = JSON.parseObject(result);
             JSONArray results = resultJsonObj.getJSONArray("results");
             JSONObject replyJsonObj = (JSONObject) results.get(0);
             String reply = replyJsonObj.getJSONObject("values").getString("text");
+            System.out.println("#5: " + reply);
             return reply;
         }
 
