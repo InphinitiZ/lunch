@@ -52,7 +52,10 @@ public class AiManager {
             JSONObject replyJsonObj = (JSONObject) results.get(0);
             String reply = replyJsonObj.getJSONObject("values").getString("text");
             System.out.println("#5: " + reply);
-            return reply;
+
+            DingMessage dingMessage = new DingMessage();
+            dingMessage.getText().setContent(reply);
+            return JSON.toJSONString(dingMessage);
         }
 
         return "不懂";
