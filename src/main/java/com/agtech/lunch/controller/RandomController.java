@@ -1,5 +1,6 @@
 package com.agtech.lunch.controller;
 
+import com.agtech.lunch.manager.AiManager;
 import com.agtech.lunch.manager.RandomRestaurantManager;
 import com.agtech.lunch.timetask.DingtalkHook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class RandomController {
     @Autowired
     private DingtalkHook dingtalkHook;
 
+    @Autowired
+    private AiManager aiManager;
+
     @RequestMapping("/")
     public String index() {
         return "Greetings from Spring Boot!";
@@ -45,5 +49,10 @@ public class RandomController {
     public String reply(@RequestBody String body) {
         System.out.println(body);
         return body;
+    }
+
+    @RequestMapping("/ai")
+    public String ai(@RequestBody String body) throws IOException {
+        return aiManager.talk2Ai(body);
     }
 }
