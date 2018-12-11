@@ -41,13 +41,13 @@ public class DingtalkHook {
         post(randomRestaurantManager.getRestaurantResult());
     }
 
-    @Scheduled(cron = "0 13 12 * * MON-FRI")
+    @Scheduled(cron = "0 30 12 * * MON-FRI")
     private void sendMiandanBegin() throws IOException {
         post(randomRestaurantManager.getMiandanBeginMessage());
         miandanzhong = true;
     }
 
-    @Scheduled(cron = "0 15 12 * * MON-FRI")
+    @Scheduled(cron = "0 40 12 * * MON-FRI")
     private void sendMiandanEnd() throws IOException {
         post(randomRestaurantManager.getMiandanEndMessage());
         miandanzhong = false;

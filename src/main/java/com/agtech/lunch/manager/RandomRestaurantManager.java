@@ -62,7 +62,11 @@ public class RandomRestaurantManager {
     }
 
     public String getMiandanEndMessage() {
-        return "今日已截止，参加免单的人有：" + miandanCandidates.toString();
+        String retMsg = "今日已截止，参加免单的人有：" + miandanCandidates.toString();
+        if(miandanCandidates.size() <= 3) {
+            retMsg += ", 由于参加人数不足4人，活动取消。。";
+        }
+        return retMsg;
     }
 
     public String getMiandanLuckMessage() {

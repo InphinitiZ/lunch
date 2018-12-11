@@ -1,5 +1,6 @@
 package com.agtech.lunch.controller;
 
+import com.agtech.lunch.dataobject.DingMessage;
 import com.agtech.lunch.manager.AiManager;
 import com.agtech.lunch.manager.RandomRestaurantManager;
 import com.agtech.lunch.timetask.DingtalkHook;
@@ -56,14 +57,17 @@ public class RandomController {
     @RequestMapping("/reply")
     public String ai(@RequestBody String body) throws IOException {
         System.out.println("#1: " + body);
-        if(dingtalkHook.isMiandanzhong()) {
+        if (dingtalkHook.isMiandanzhong()) {
             JSONObject bodyObject = JSON.parseObject(body);
-            if(bodyObject.getString("senderNick") != null && bodyObject.getString("senderNick").length() > 0) {
+            if (bodyObject.getString("senderNick") != null && bodyObject.getString("senderNick").length() > 0) {
                 JSONObject text = bodyObject.getJSONObject("text");
-                if(text != null) {
+                if (text != null) {
                     String content = text.getString("content");
-                    if(content.contains("参加")) {
+                    if (content.contains("参加")) {
                         randomRestaurantManager.addMiandanList(bodyObject.getString("senderNick"));
+                        DingMessage dingMessage = new DingMessage();
+                        dingMessage.getText().setContent(bodyObject.getString("senderNick") + "参加成功");
+                        return JSON.toJSONString(dingMessage);
                     }
                 }
             }
