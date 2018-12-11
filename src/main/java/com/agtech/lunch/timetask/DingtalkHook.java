@@ -33,10 +33,30 @@ public class DingtalkHook {
     @Autowired
     private RandomRestaurantManager randomRestaurantManager;
 
+    private boolean miandanzhong = false;
+
     @Scheduled(cron = "0 55 11 * * MON-FRI")
 //    @Scheduled(cron = "*/5 * * * * MON-FRI")
     private void send() throws IOException {
         post(randomRestaurantManager.getRestaurantResult());
+    }
+
+    @Scheduled(cron = "0 0 12 * * MON-FRI")
+    private void sendMiandanBegin() throws IOException {
+        post(randomRestaurantManager.getMiandanBeginMessage());
+        miandanzhong = true;
+    }
+
+    @Scheduled(cron = "0 10 12 * * MON-FRI")
+    private void sendMiandanEnd() throws IOException {
+        post(randomRestaurantManager.getMiandanEndMessage());
+        miandanzhong = false;
+    }
+
+    @Scheduled(cron = "0 30 13 * * MON-FRI")
+    private void sendMiandanLuck() throws IOException {
+        post(randomRestaurantManager.getMiandanLuckMessage());
+        randomRestaurantManager.clearMiandanList();
     }
 
     public void send(String msg) throws IOException {
@@ -66,5 +86,9 @@ public class DingtalkHook {
 
     public void setACCESSTOKEN(String ACCESSTOKEN) {
         this.ACCESSTOKEN = ACCESSTOKEN;
+    }
+
+    public boolean isMiandanzhong() {
+        return miandanzhong;
     }
 }

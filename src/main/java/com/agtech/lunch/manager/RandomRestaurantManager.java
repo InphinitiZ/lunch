@@ -6,10 +6,7 @@ import org.springframework.stereotype.Component;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA
@@ -34,6 +31,12 @@ public class RandomRestaurantManager {
         add("---才怪，%s整%s");
     }};
 
+    private List<String> miandanCandidates = new ArrayList<>();
+
+    private List<String> cArray = new ArrayList<String>() {{
+        add("一日一度的看脸免单，参加的@我，格式\"@午饭君 我参加！\"，10分钟之内赶紧报名哈！");
+    }};
+
     public String getRestaurantResult() {
         LocalDate localDate = LocalDate.now(ZoneId.of("Asia/Shanghai"));
         DayOfWeek dayOfWeek = localDate.getDayOfWeek();
@@ -52,6 +55,31 @@ public class RandomRestaurantManager {
         }
 
         return makeSentence(re.getName(), dayOfWeek);
+    }
+
+    public String getMiandanBeginMessage() {
+        return cArray.get(0);
+    }
+
+    public String getMiandanEndMessage() {
+        return "今日已截止，参加免单的人有：" + miandanCandidates.toString();
+    }
+
+    public String getMiandanLuckMessage() {
+        Random r = new Random();
+        int index = r.nextInt(miandanCandidates.size());
+        String luckyName = miandanCandidates.get(index);
+        return "今日免单：" + luckyName + "！";
+    }
+
+    public void addMiandanList(String name) {
+        if(!miandanCandidates.contains(name)) {
+            miandanCandidates.add(name);
+        }
+    }
+
+    public void clearMiandanList() {
+        miandanCandidates.clear();
     }
 
     private String makeSentence(String restName, DayOfWeek dayOfWeek) {
