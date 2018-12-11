@@ -47,16 +47,20 @@ public class DingtalkHook {
         miandanzhong = true;
     }
 
-    @Scheduled(cron = "0 40 12 * * MON-FRI")
+    @Scheduled(cron = "0 0 13 * * MON-FRI")
     private void sendMiandanEnd() throws IOException {
         post(randomRestaurantManager.getMiandanEndMessage());
         miandanzhong = false;
     }
 
-    @Scheduled(cron = "0 30 13 * * MON-FRI")
+    @Scheduled(cron = "0 20 13 * * MON-FRI")
     private void sendMiandanLuck() throws IOException {
-        post(randomRestaurantManager.getMiandanLuckMessage());
+        String retStr = randomRestaurantManager.getMiandanLuckMessage();
         randomRestaurantManager.clearMiandanList();
+        if(retStr == null) {
+            return;
+        }
+        post(retStr);
     }
 
     public void send(String msg) throws IOException {

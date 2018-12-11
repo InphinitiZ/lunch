@@ -34,7 +34,7 @@ public class RandomRestaurantManager {
     private List<String> miandanCandidates = new ArrayList<>();
 
     private List<String> cArray = new ArrayList<String>() {{
-        add("一日一度的看脸免单，参加的@我，格式\"@午饭君 我参加！\"，10分钟之内赶紧报名哈！");
+        add("一日一度的看脸免单，参加的@我，格式\"@午饭君 我参加！\"，30分钟之内赶紧报名哈！");
     }};
 
     public String getRestaurantResult() {
@@ -70,6 +70,9 @@ public class RandomRestaurantManager {
     }
 
     public String getMiandanLuckMessage() {
+        if(miandanCandidates.size() <= 3) {
+            return null;
+        }
         Random r = new Random();
         int index = r.nextInt(miandanCandidates.size());
         String luckyName = miandanCandidates.get(index);
